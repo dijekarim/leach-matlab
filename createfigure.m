@@ -17,7 +17,9 @@ box(subplot1,'on');
 hold(subplot1,'all');
 
 % Create plot
-plot(X1,Y1,'Parent',subplot1,'LineWidth',2,'Color',[0 1 0]);
+plot(X1,Y1(:, 1),'Parent',subplot1,'LineWidth',2,'Color',[1 0 0]);
+plot(X1,Y1(:, 2),'Parent',subplot1,'LineWidth',2,'Color',[0 0 1]);
+legend('LEACH', 'LEACH-OptK');
 
 % Create xlabel
 xlabel('Round','FontWeight','bold','FontSize',11,'FontName','Cambria');
@@ -36,17 +38,19 @@ box(subplot2,'on');
 hold(subplot2,'all');
 
 % Create plot
-plot(X1,Y2,'Parent',subplot2,'LineWidth',2);
+plot(X1,Y2(:, 1),'Parent',subplot2,'LineWidth',2,'Color',[1 0 0]);
+plot(X1,Y2(:, 2),'Parent',subplot2,'LineWidth',2,'Color',[0 0 1]);
+legend('LEACH', 'LEACH-OptK');
 
 % Create xlabel
 xlabel('Round','FontWeight','bold','FontSize',11,'FontName','Cambria');
 
 % Create ylabel
-ylabel('# of packets sent to BS nodes','FontWeight','bold','FontSize',11,...
+ylabel('energy average','FontWeight','bold','FontSize',11,...
     'FontName','Cambria');
 
 % Create title
-title('Number of packet sent to BS vs. round','FontWeight','bold',...
+title('Energy average of nodes vs. round','FontWeight','bold',...
     'FontSize',12,...
     'FontName','Cambria');
 
@@ -56,7 +60,9 @@ box(subplot3,'on');
 hold(subplot3,'all');
 
 % Create plot
-plot(X1,Y3,'Parent',subplot3,'LineWidth',2,'Color',[1 0 0]);
+plot(X1,Y3(:, 1),'Parent',subplot3,'LineWidth',2,'Color',[1 0 0]);
+plot(X1,Y3(:, 2),'Parent',subplot3,'LineWidth',2,'Color',[0 0 1]);
+legend('LEACH', 'LEACH-OptK');
 
 % Create xlabel
 xlabel('Round','FontWeight','bold','FontSize',11,'FontName','Cambria');

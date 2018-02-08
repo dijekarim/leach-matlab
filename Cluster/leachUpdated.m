@@ -1,4 +1,4 @@
-function [nodeArch, clusterNode] = leach(clusterModel, clusterFunParam)
+function [nodeArch, clusterNode] = leachUpdated(clusterModel, clusterFunParam)
 % Create the new node architecture using leach-icm algorithm in beginning 
 %  of each rond. This function is called by newCluster function.
 %   
@@ -41,14 +41,31 @@ function [nodeArch, clusterNode] = leach(clusterModel, clusterFunParam)
     % define cluster structure
     clusterNode     = struct();
     %
-    locAlive = find(~nodeArch.dead); % find the nodes that are alive
+    nodeAlive = find(~nodeArch.dead); % find the nodes that are alive
+    halfYard = 0;
+    for i = nodeAlive
+        if (nodeArch.node(i).G <= 0) && (nodeArch.node(i).energy > 0)
+            if (nodeArch.node(i).y >= (netArch.Yard.Width / 2))
+                halfYard = halfYard+1;
+                break
+            end            
+        end
+    end
+    
+    if halfYard >= clusterModel.numCluster
+        tier = netArch.Yard.Width / 2;
+    else
+        tier = 0;
+    end
+    
     countCHs = 0;
-    for i = locAlive % search in alive nodes
+    for i = nodeAlive % search in alive nodes
         temp_rand = rand;
         if (nodeArch.node(i).G <= 0) && ...
            (temp_rand <= prob(r, p)) && ...
-           (nodeArch.node(i).energy > 0)
-
+           (nodeArch.node(i).energy > 0) && ...
+           (nodeArch.node(i).y >= tier)
+           
             countCHs = countCHs+1;
 
             nodeArch.node(i).type          = 'C';
@@ -62,6 +79,10 @@ function [nodeArch, clusterNode] = leach(clusterModel, clusterFunParam)
             clusterNode.distance(countCHs) = sqrt((xLoc - netArch.Sink.x)^2 + ...
                                                   (yLoc - netArch.Sink.y)^2);            
         end % if
+        
+        if countCHs == clusterModel.numCluster
+            break
+        end
     end % for
     clusterNode.countCHs = countCHs;
 end
